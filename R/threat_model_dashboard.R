@@ -13,7 +13,7 @@
 #' threat_model_dashboard("~/inputs", "~/simulations")
 #' )
 
-threat_model_simulation <- function(input_directory = "~/evaluator/inputs",
+threat_model_dashboard <- function(input_directory = "~/evaluator/inputs",
                                     results_directory = "~/evaluator/results",
                                     output_file = NULL,
                                     intermediates_dir = tempdir(),
