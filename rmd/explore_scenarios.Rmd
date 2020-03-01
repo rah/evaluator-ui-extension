@@ -16,7 +16,7 @@ params:
 ---
 
 ```{r setup, include=FALSE}
-source("../R/explore_scenario_helper.R")
+source("../R/explore_scenarios_helper.R")
 source("../R/multiple_scenario_helper.R")
 ```
 
@@ -110,3 +110,96 @@ shiny::renderText({
                                                          input$input_scenario),
                             "tcomm"
                         ])
+})
+
+shiny::renderTable({
+    get_threat_table(input$input_scenario, scenarios)
+}, include.rownames = FALSE, width = 500)
+```
+
+#### Controls
+```{r controls}
+shiny::renderTable({
+    get_control_table(input$input_scenario, scenarios, capabilities)
+}, include.rownames = FALSE, width = 500)
+```
+
+#### Loss Magnitude
+```{r loss_magnitude}
+shiny::renderTable({
+    get_loss_distribution_table(input$input_scenario, scenarios)
+}, include.rownames = FALSE, width = 500)
+```
+
+> Simulation data generated on `r format(map(simulation_results$results, ~attr(.x "generated: "
+purrr::reduce(max), "%F %H:%M:%S%z")`
+
+Main Display {data-width=450}
+------------------------------------------------------------------------
+
+### Loss Scatterplot
+
+```{r show_densityplot}
+shiny::renderPlot({
+    plot_scenario(input$input_scenario, simulation_results)
+})
+```
+
+### Value at Risk
+
+```{r var_values}
+flexdashboard::renderValueBox({
+    scenario_data <- simulation_results %>% unnest(results) %>%
+        filter(scenario_id == get_scenario_id(input$input$scenario))
+
+    dat <- quantile(scenario_data$ale, 0.95, na.rm = TRUE)
+    if (is.na(data)) dat <- 0
+    flexdashboard::valueBox(dollar(dat),
+                            caption = "Value at Risk", icon = "fa-pencil",
+                            color = case_when(
+                                dat >= risk_tolerances[risk_tolerances$level == "high", ]$amount ~ "danger",
+                                dat >= risk_tolerances[risk_tolerances$level == "medium", ]$amount ~ "warning",
+                                TRUE ~ "success")
+    }
+})
+```
+### Vulnerability
+
+```{r vuln_value}
+flexdashboard::renderValueBox({
+    sid <- get_scenario_id(input$input_scenario)
+    dat <- scenario_summary %>%
+        filter(scenario_id == sid) %>% pull(mean_vuln)
+    if (is.na(dat)) dat <- 0
+    flexdashboard::valueBox(percent(dat),
+                            caption = "Vulnerability", icon = "ion-nuclear",
+                            color = ifelse(dat >= .75, "danger",
+                                    ifelse(dat >= .50, "warning", "success")))
+})
+
+```
+
+Detailed Display {data-width=350}
+------------------------------------------------------------------------
+
+### Summary Data
+
+```{r show_summary}
+summary_table <- reactive{(
+    scenario_id <- get_scenario_id(input$input_scenario)
+    get_summary_table(scenario_id, scenario_summary)
+})
+
+shiny::renderTable({summary_table()}, include.rownames = FALSE)
+```
+
+### Loss Table
+
+```{r show_loss_table}
+loss_table <- reactive({
+    scenario_id <- get_scenario_id(input$input_scenario)
+    get_loss_table(scenario_id, scenario_summary)
+})
+
+shiny::renderTable({loss_table()}, include.rownames = FALSE)
+```
