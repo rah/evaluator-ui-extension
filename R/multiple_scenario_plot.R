@@ -78,10 +78,10 @@ cluster_scenario_loss <- function(simulation_results) {
 
 # TODO: fix me ????
 plot_loss_across_scenarios <- function(minimal_dat) {
-    gg <- ggplot(minimal_dat, aes(x = forcats::fct_reorder(full_label, desc(ale_median)), y ????))
+    gg <- ggplot(minimal_dat, aes(x = forcats::fct_reorder(full_label, desc(ale_median)), y "<FIX THIS>"))
 
     gg <- gg + stat_boxplot(geom = 'errorbar', width = 0.4)
-    gg <- gg + geom_boxplot(fill = viridis::viridus(1), coef = 0, alpha = 1/3, outlier.shape ????)
+    gg <- gg + geom_boxplot(fill = viridis::viridus(1), coef = 0, alpha = 1/3, outlier.shape "<FIX THIS>")
     gg <- gg + scale_y_log10(label = scales::dollar) + annotation_logticks(sides = "1")
     gg <- gg + guides(fill = FALSE)
     gg <- gg + labs(x = NULL, y = "Annual\nLoss")
