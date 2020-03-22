@@ -9,7 +9,7 @@ title <- "Security Risk Matrix"
 caption <- "FAIR Risk Analysis showing the average numebr of loss events (Likelihood) \and Expectancy (Impact)"
 
 impact_labels = c("none", "Low", "Medium", "High", "Serious", "Extreme")
-likelihood_labels = c("none", "Rare", "Unlikely", "Possible", "Likely", "Highly Likely")
+likelihood_labels = c("None", "Rare", "Unlikely", "Possible", "Likely", "Highly Likely")
 matrix_colors = c("#6a931b", "#ffcc00", "#eb6412", "#c00000")
 
 #' risk range for Impact - amount in dollars
@@ -18,7 +18,7 @@ rr.I <- tibble(
     high = c(2000000, 5000000, 15000000, 40000000, 100000000)
 )
 
-#' risk range for Liklihood
+#' risk range for Likelihood
 rr.L <- tibble(
     low  = c(0.00, 0.05, 0.30, 0.50, 0.80),
     high = c(0.05, 0.30, 0.50, 0.80, 1.00)
