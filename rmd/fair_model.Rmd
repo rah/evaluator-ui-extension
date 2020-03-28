@@ -416,3 +416,9 @@ shiny::renderTable({
 },
 include.rownames = FALSE, width = 500)
 ```
+
+#### Controls
+
+``` {r controls}
+
+```
