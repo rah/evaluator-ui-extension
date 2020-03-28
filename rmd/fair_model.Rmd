@@ -369,5 +369,50 @@ Input Sidebar {.sidebar data-width=500}
 Select a specific risk scenario for detailed analysis.
 
 ``` {r inputs}
+shiny::renderUI({
+    if (values$modelLoaded) {
+        selectInput(
+            "input_scenario", h3("Select Risk Scenario"),
+            get_scenarios(values$results$summarise_results$scenario_summary)
+        )
+    }
+})
+```
 
+### Scenario Description
+``` {r scenario_details}
+shiny::renderText({
+    if (values$modelLoaded) {
+        get_scenario_description(
+            input$input_scenario,
+            values$results$summarise_results$scenarios
+        )
+    }
+})
+```
+
+### Threat Profile
+
+``` {r threat_profile}
+shiny::renderText({
+    if (values$modelLoaded) {
+        paste(
+            "Community:",
+            get_threat_actor(
+                input$input_scenario,
+                values$results$summarise_results$scenarios
+            )
+        )
+    }
+})
+
+shiny::renderTable({
+    if (values$modelLoaded) {
+        get_threat_table(
+            input$input_scenario,
+            values$results$summarise_results$scenarios
+        )
+    }
+},
+include.rownames = FALSE, width = 500)
 ```
