@@ -31,6 +31,11 @@ risk_model_app <- function(app_name = fair_model_app,
                            intermediates_dir = tempdir(),
                            quiet = TRUE,
                            ...) {
+
+    if (nchar(app_name) == 0) {
+        stop("Model name must not be empty")
+    }
+
     styles <- system.file("rmd", "styles", "html-styles.css", package = "evaluator")
     icon <- system.file("rmd", "img", "evaluator_hex_48px.png", package = "evaluator")
     rmd_file <- paste("rmd/", app_name, ".Rmd", sep="")
