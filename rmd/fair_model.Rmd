@@ -20,7 +20,7 @@ library(ggplot2)
 library(mc2d)
 library(shiny)
 library(scales)
-library(dpylr)
+# library(dpylr) is a part of tidyverse
 library(viridis)
 
 source("../R/multiple_scenario_helper.R", local=TRUE)

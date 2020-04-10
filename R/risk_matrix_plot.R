@@ -5,7 +5,7 @@ library(ggplot)
 library(plotly)
 library(dplyr)
 
-title <- "Security Risk Matrix"
+title <- "Risk Matrix"
 caption <- "FAIR Risk Analysis showing the average numebr of loss events (Likelihood) \and Expectancy (Impact)"
 
 impact_labels = c("none", "Low", "Medium", "High", "Serious", "Extreme")

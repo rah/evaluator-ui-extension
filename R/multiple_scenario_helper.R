@@ -1,10 +1,9 @@
 
-
-
 library(evaluator)
 library(readr)
 library(purrr)
-library(dpylr)
+# library(dpylr)
+
 plan(multiprocess)
 
 # Default settings
@@ -23,7 +22,7 @@ get_model_list <- function() {
 #' @return A list of directory paths
 get_model_dirs <- function(model) {
     list (
-        "inputs" = paste(base_dir, model, "/inputs", sep="")
+        "inputs" = paste(base_dir, model, "/inputs", sep=""),
         "results" = paste(base_dir, model, "/results", sep="")
     )
 }
