@@ -74,7 +74,7 @@ generate_risk_matix < function(risk) {
     df$Risk[22] <- 4
 
     # Plot the risk matrix
-    risk_p < ggplot(df, aes(y = Likelihood, x = Impact, fill = Risk)) +
+    risk_p <- ggplot(df, aes(y = Likelihood, x = Impact, fill = Risk)) +
         geom_tile() +
         scale_fill_gradientn(colours = matrix_colors, guide=FALSE) +
         scale_x_continuous(name = "Impact", breaks = 0:5, expand = c(0, 0),
