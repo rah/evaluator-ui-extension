@@ -23,11 +23,10 @@ library(scales)
 # library(dpylr) is a part of tidyverse
 library(viridis)
 
-source("../R/multiple_scenario_helper.R", local=TRUE)
-source("../R/multiple_scenario_plot.R", local=TRUE)
+source("../R/risk_model.R", local=TRUE)
+source("../R/risk_scenario.R", local=TRUE)
+source("../R/risk_plot.R", local=TRUE)
 source("../R/risk_matrix_plot.R", local=TRUE)
-source("../R/explore_scenarios_helper.R", local=TRUE)
-source("../R/lec_plot.R", local=TRUE)
 ```
 
 ```{r core_functions, include=FALSE}

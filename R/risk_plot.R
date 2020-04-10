@@ -65,7 +65,6 @@ lec_plot <- function(iteration_results, loss_tolerance = default_tolerance) {
     gg
 }
 
-
 # TODO: fix me ????
 plot_loss_across_scenarios <- function(minimal_dat) {
     gg <- ggplot(minimal_dat, aes(x = forcats::fct_reorder(full_label, desc(ale_median)), y "<FIX THIS>"))
