@@ -2,14 +2,14 @@
 title: "Risk Scenario Explorer"
 author: "Evaluator toolkit"
 output:
-	flexdashboard::flex_dashboard:
-	  vertical-layout: fill
-	  navbar:
-	  - align: right
-	    href: https://evaluator.tidyrisk.org
-		title: About
-	  orientation: columns
-	  css: styles/html-styles.css
+  flexdashboard::flex_dashboard:
+    vertical-layout: fill
+    orientation: columns
+navbar:
+  - align: right
+    href: https://evaluator.tidyrisk.org
+    title: About
+css: styles/html-styles.css
 runtime: shiny
 params:
   model: "strategic_security_scorecard"
