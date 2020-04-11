@@ -1,14 +1,13 @@
 ---
 title: "FAIR Analysis"
-runtime: shiny
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
-	social: menu
-	source_code: embed
-	navbar:
-	  - { title: "About OpenFAIR", href: "https://blog.opengroup.org/2017/01/24/what-is-open-fair",
-		  right }
+    social: menu
+    source_code: embed
+navbar:
+- { title: "About OpenFAIR", href: "https://blog.opengroup.org/2017/01/24/what-is-open-fair", right }
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
