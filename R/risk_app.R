@@ -15,8 +15,8 @@ explore_scenarios_app <- "explore_scenarios"
 fair_model_app <- "fair_model"
 
 default_app_name <- fair_model_app
-default_input_directory <- "~/workspace/risk-analysis-ui/model/input"
-default_results_directory <- "~/workspace/risk-analysis-ui/model/results"
+default_input_directory <- "~/workspace/risk-analysis-ui/model"
+default_results_directory <- "~/workspace/risk-analysis-ui/model"
 
 
 #'

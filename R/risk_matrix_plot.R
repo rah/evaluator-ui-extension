@@ -1,7 +1,7 @@
 #'
 #' Plot a standard 5x5 risk matrix
 #'
-library(ggplot)
+library(ggplot2)
 library(plotly)
 library(dplyr)
 
@@ -41,15 +41,15 @@ map_risk_matrix <- function(risk_summary) {
                           mean_loss_events >= rr.L$low[5] ~ 5),
                       Impact = case_when(
                           ale_var < rr.I$high[1] ~ 1,
-                          ale_var >= rr.I$low[2] @ ale_var < rr.I$high[2] ~ 2,
-                          ale_var >= rr.I$low[3] @ ale_var < rr.I$high[3] ~ 3,
-                          ale_var >= rr.I$low[4] @ ale_var < rr.I$high[4] ~ 4,
+                          ale_var >= rr.I$low[2] & ale_var < rr.I$high[2] ~ 2,
+                          ale_var >= rr.I$low[3] & ale_var < rr.I$high[3] ~ 3,
+                          ale_var >= rr.I$low[4] & ale_var < rr.I$high[4] ~ 4,
                           ale_var >= rr.I$low[5] ~ 5)
                   )
     return(risk)
 }
 
-generate_risk_matix < function(risk) {
+generate_risk_matix <- function(risk) {
     # setting the score in order to calculate the risk level
     Likelihood_score <- rep(c(1,2,4,6,12), 5)
     Impact_score <- rep(c(1,2,4,6,12), each = 5)

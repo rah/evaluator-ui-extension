@@ -23,6 +23,7 @@ library(viridis)
 library(readr)
 library(purrr)
 library(future)
+library(DT)
 
 plan(multiprocess)
 
@@ -42,7 +43,7 @@ values$modelLoaded <- FALSE
 
 observeEvent(input$loadSimResults, {
     showNotification("Loading FAIR results")
-    values$results <- load_simulation_data(input$modelName)
+    values$results <- load_simulation_model(input$modelName)
     values$modelLoaded <- TRUE
     showNotifications("Results Loaded")
 })
@@ -326,8 +327,8 @@ shiny::renderPlot({
         gg <- gg + geom_boxplot(fill = viridus(1), alpha = 1/3)
         gg <- gg + facet_grid(~ domain_id, scales = "free_x", space = "free_x", switch = "x")
         gg <- gg + theme_evaluator(base_family = basefont)
-        gg <- gg theme(panel.grid.major = element_blank())
-        gg <- gg theme(panel.grid.minor = element_blank())
+        gg <- gg + theme(panel.grid.major = element_blank())
+        gg <- gg + theme(panel.grid.minor = element_blank())
         print(gg)
     }
 })
@@ -479,15 +480,15 @@ flexdashboard::renderValueBox({
 
         risk_tolerances <- values$results$summarise_results$risk_tolerances
         flexdashboard::valueBox(
-                           dollar(dat)
-                           caption = "95% Value at Risk", icon = "fa-pencil",
+                           dollar(dat),
+                           caption = "95% Value at Risk",
+                           icon = "fa-pencil",
                            color = case_when(
-                               dat >= risk_tolerances[
-                                          risk_tolerances$level == "high",]$amount ~ "High",
-                               dat >= risk_tolerances[
-                                          risk_tolerances$level == "medium",]$amount ~ "Medium",
-                               TRUE ~ "success")
-        }
+                               dat >= risk_tolerances[risk_tolerances$level == "high",]$amount ~ "High",
+                               dat >= risk_tolerances[risk_tolerances$level == "medium",]$amount ~ "Medium",
+                               TRUE ~ "success"
+                           )
+                       )
     }
 })
 ```
