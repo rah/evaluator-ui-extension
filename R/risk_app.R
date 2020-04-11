@@ -1,4 +1,3 @@
-
 #' A simple web application that demonstrates OpenFAIR modelling. This application
 #' allows the user to enter beta PERT parameters and run simulations to see the
 #' distribution of results, with high level summary statistics. As a demonstration
@@ -10,8 +9,15 @@ single_scenario_app <- "single_scenario"
 #' multiple scenarios presenting a dashboard of results.
 multiple_scenario_app <- "multiple_scenario"
 
+explore_scenarios_app <- "explore_scenarios"
+
 #' Replaces the multiple scenario app
 fair_model_app <- "fair_model"
+
+default_app_name <- fair_model_app
+default_input_directory <- "~/workspace/risk-analysis-ui/model/input"
+default_results_directory <- "~/workspace/risk-analysis-ui/model/results"
+
 
 #'
 #' @param app_name Name of the application to run
@@ -23,22 +29,17 @@ fair_model_app <- "fair_model"
 #' @param ...
 #'
 #' @return Invisible NULL
-
-risk_model_app <- function(app_name = fair_model_app,
-                           host = "127.0.0.1",
-                           input_directory = "~/evaluator/inputs",
-                           results_directory = "~/evaluator/results",
+risk_model_app <- function(app_name = default_app_name,
+                           input_directory = default_input_directory,
+                           results_directory = default_results_directory,
                            intermediates_dir = tempdir(),
                            quiet = TRUE,
-                           ...) {
-
-    if (nchar(app_name) == 0) {
-        stop("Model name must not be empty")
-    }
+                           host = "127.0.0.1") {
 
     styles <- system.file("rmd", "styles", "html-styles.css", package = "evaluator")
     icon <- system.file("rmd", "img", "evaluator_hex_48px.png", package = "evaluator")
-    rmd_file <- paste("rmd/", app_name, ".Rmd", sep="")
+
+    rmd_file <- paste("./rmd/", app_name, ".Rmd", sep="")
 
     rmarkdown::run(rmd_file,
                    render_args = list(
@@ -46,15 +47,15 @@ risk_model_app <- function(app_name = fair_model_app,
                            css = styles,
                            favicon = icon,
                            logo = icon),
-                       output_file = output_file,
                        intermediates_dir = intermediates_dir,
                        params = list(
                            input_directory = input_directory,
-                           results_directory = result_directory),
-                       quite = quiet,
-                       ...
+                           results_directory = results_directory),
+                       quiet = quiet
                    ),
                    shiny_args = list(host = host)
                    )
     invisible(NULL)
 }
+
+risk_model_app()
