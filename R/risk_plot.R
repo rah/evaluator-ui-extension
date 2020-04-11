@@ -24,7 +24,8 @@ plot_scenario <- function(scenario, simulation_results) {
     gg <- gg + scale_x_continuous(labels = comma)
     gg <- gg + labs(x = "Annual Expacted Losses")
     gg <- gg + theme_evaluator(base_family = basefont)
-    print(gg)
+
+    return(gg)
 }
 
 #' @import ggplot2
@@ -35,10 +36,7 @@ plot_scenario <- function(scenario, simulation_results) {
 #' @param iteration_results iteration level summary from \code{summarize_iterations}.
 #'
 #' @return A ggplot object
-#' @examples
-#' data(mc_simulation_results)
-#' summarize_iterations(mc_simulation_results$results) %>% lec_plot()
-lec_plot <- function(iteration_results, loss_tolerance = default_tolerance) {
+plot_lec <- function(iteration_results, loss_tolerance = default_tolerance) {
     gg <- dpylr::arrange(iteration_results, .data$max_loss) %>%
         dpylr::mutate(prob = 1 - dpylr::percent_rank(.data$max_loss)) %>%
         ggplot(aes(.data$max_loss, .data$prob))
@@ -62,15 +60,18 @@ lec_plot <- function(iteration_results, loss_tolerance = default_tolerance) {
                     title = "Loss Exceedance Curve",
                     caption = "Source: Derived from Evaluator toolkit")
 
-    gg
+    return(gg)
 }
 
-# TODO: fix me ????
-plot_loss_across_scenarios <- function(minimal_dat) {
-    gg <- ggplot(minimal_dat, aes(x = forcats::fct_reorder(full_label, desc(ale_median)), y "<FIX THIS>"))
+#' Plot loss across a set of scenarios
+#'
+#' @param dat the scenarios to plot
+#' @return ggplot
+plot_loss_across_scenarios <- function(dat) {
+    gg <- ggplot(dat, aes(x = forcats::fct_reorder(full_label, desc(ale_median)), y = ale + 1))
 
     gg <- gg + stat_boxplot(geom = 'errorbar', width = 0.4)
-    gg <- gg + geom_boxplot(fill = viridis::viridus(1), coef = 0, alpha = 1/3, outlier.shape "<FIX THIS>")
+    gg <- gg + geom_boxplot(fill = viridis::viridus(1), coef = 0, alpha = 1/3, outlier.shape =NA)
     gg <- gg + scale_y_log10(label = scales::dollar) + annotation_logticks(sides = "1")
     gg <- gg + guides(fill = FALSE)
     gg <- gg + labs(x = NULL, y = "Annual\nLoss")
@@ -78,4 +79,6 @@ plot_loss_across_scenarios <- function(minimal_dat) {
     gg <- gg + theme(panel.grid.major.x = element_line())
     gg <- gg + theme(panel.grid.minor.x = element_line(color = "grey92"))
     gg <- gg + theme(axis.title.y = element_text(angle = 0, vjust = 0.5, hjust = 0))
-    gg
+
+    return(gg)
+}
