@@ -19,8 +19,12 @@ library(ggplot2)
 library(mc2d)
 library(shiny)
 library(scales)
-# library(dpylr) is a part of tidyverse
 library(viridis)
+library(readr)
+library(purrr)
+library(future)
+
+plan(multiprocess)
 
 source("../R/risk_model.R", local=TRUE)
 source("../R/risk_scenario.R", local=TRUE)
