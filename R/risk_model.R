@@ -1,11 +1,3 @@
-
-library(evaluator)
-library(readr)
-library(purrr)
-# library(dpylr)
-
-plan(multiprocess)
-
 # Default settings
 base_dir <- "./model/multiple/"
 
