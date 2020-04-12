@@ -1,10 +1,8 @@
-# Default settings
-base_dir <- "./model/multiple/"
 
 #' Get the list of models that can be loaded
 #' @return list of models
-get_model_list <- function() {
-    model_list <- list.files("../model/multiple/")
+get_model_list <- function(model_directory) {
+    model_list <- list.files(model_directory)
 }
 
 #' Get the directory paths for scenario inputs and results
@@ -14,8 +12,8 @@ get_model_list <- function() {
 #' @return A list of directory paths
 get_model_dirs <- function(model) {
     list (
-        "inputs" = paste(base_dir, model, "/inputs", sep=""),
-        "results" = paste(base_dir, model, "/results", sep="")
+        "inputs" = paste(model_directory, model, "/inputs", sep=""),
+        "results" = paste(model_directory, model, "/results", sep="")
     )
 }
 
@@ -40,16 +38,17 @@ load_model <- function(model) {
         dirs$inputs)
 
     qual_inputs <- read_qualitative_inputs(dirs$inputs)
-    qualitative_scenarios <- qual_input$qualitative_scenarios
+    qualitative_scenarios <- qual_inputs$qualitative_scenarios
     mappings <- qual_inputs$mappings
     capabilities <- qual_inputs$capabilities
     validate_scenarios(qualitative_scenarios, capabilities, domains, mappings)
 
     model_data <- list("domains" = domains,
-                       "qualitative_scenarios" = qualitative_scenaros,
+                       "qualitative_scenarios" = qualitative_scenarios,
                        "mappings" = mappings,
-                       "inputs_dir" = dir$inputs,
-                       "results_dir" = dir$results)
+                       "capabilities" = capabilities,
+                       "inputs_dir" = dirs$inputs,
+                       "results_dir" = dirs$results)
 
     return(model_data)
 }
@@ -96,7 +95,7 @@ run_multiple_simulation <- function(quantitative_scenarios, iterations = 10000L)
 #' @param simulation_results
 #' @param results_dir
 save_simulation_results <- function(simulation_results, results_dir) {
-    saveRDS(simulation, file = file.path(results_dir, "simulation_results.rds"))
+    saveRDS(simulation_results, file = file.path(results_dir, "simulation_results.rds"))
     summarize_to_disk(simulation_results = simulation_results, results_dir)
 }
 
@@ -166,7 +165,7 @@ summarize_model_simulation <-function(model_results) {
     simulation_results_unnested <- unnest(simulation_results, results) %>%
         mutate(outlier = scenario_id %in% scenario_outliers)
 
-    risk_tolerance <-
+    risk_tolerances <-
         readr::read_csv(
                    file.path(model_results$model_data$inputs_dir, "risk_tolerances.csv"),
                    col_types = readr::cols(level = readr::col_character(),

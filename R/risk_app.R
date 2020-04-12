@@ -15,23 +15,20 @@ explore_scenarios_app <- "explore_scenarios"
 fair_model_app <- "fair_model"
 
 default_app_name <- fair_model_app
-default_input_directory <- "~/workspace/risk-analysis-ui/model"
-default_results_directory <- "~/workspace/risk-analysis-ui/model"
+default_model_directory <- "~/workspace/risk-analysis-ui/model/"
 
 
 #'
 #' @param app_name Name of the application to run
-#' @param host Set this to 0.0.0.0 if you want the server to be public
 #' @param input_directory
 #' @param results_directory
 #' @param intermediates_dir Location directory for intermediates knit files
 #' @param quiet 'TRUE' to suppress printing of pandoc output
-#' @param ...
+#' @param host Set this to 0.0.0.0 if you want the server to be public
 #'
 #' @return Invisible NULL
 risk_model_app <- function(app_name = default_app_name,
-                           input_directory = default_input_directory,
-                           results_directory = default_results_directory,
+                           model_directory = default_model_directory,
                            intermediates_dir = tempdir(),
                            quiet = TRUE,
                            host = "127.0.0.1") {
@@ -48,9 +45,7 @@ risk_model_app <- function(app_name = default_app_name,
                            favicon = icon,
                            logo = icon),
                        intermediates_dir = intermediates_dir,
-                       params = list(
-                           input_directory = input_directory,
-                           results_directory = results_directory),
+                       params = list(model_directory = model_directory),
                        quiet = quiet
                    ),
                    shiny_args = list(host = host)

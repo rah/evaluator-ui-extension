@@ -8,6 +8,8 @@ output:
 navbar:
 - { title: "About OpenFAIR", href: "https://blog.opengroup.org/2017/01/24/what-is-open-fair", right }
 runtime: shiny
+params:
+  model_directory: "~/workspace/risk-analysis-ui/model"
 ---
 
 ```{r setup, include=FALSE}
@@ -37,6 +39,8 @@ source("../R/risk_matrix_plot.R", local=TRUE)
 # determine the proper base font to use for graphs
 basefont <- get_base_fontfamily()
 
+model_directory <- params$model_directory
+
 values <- reactiveValues()
 values$iterations <- 1000
 values$modelLoaded <- FALSE
@@ -45,17 +49,17 @@ observeEvent(input$loadSimResults, {
     showNotification("Loading FAIR results")
     values$results <- load_simulation_model(input$modelName)
     values$modelLoaded <- TRUE
-    showNotifications("Results Loaded")
+    showNotification("Results Loaded")
 })
 
 observeEvent(input$runSim, {
     showNotification("Running FAIR analysis")
     model_results <- run_model_simulation(input$modelName, input$iterations)
 
-    showNotifications("Summarising results")
+    showNotification("Summarising results")
     values$results <- summarize_model_simulation(model_results)
     values$modelLoaded <- TRUE
-    showNotifications("Summarising results completed")
+    showNotification("Summarising results completed")
 })
 ```
 
@@ -66,7 +70,7 @@ Input Sidebar {.sidebar data-width=300}
 ------------------------------------------------------------------------
 
 ```{r model_inputs}
-selectInput("modelName", h3("Select FAIR Analysis"), choices = get_model_list())
+selectInput("modelName", h3("Select FAIR Analysis"), choices = get_model_list(model_directory))
 actionButton("loadSimResults", "Load Analysis", width = "250px")
 sliderInput("iterations", h3("Number of iterations"), min=100, max=100000, value=1000)
 actionButton("runSim", "Run Analysis", width = "250px")
@@ -95,7 +99,7 @@ renderTable({
 renderTable({
     if (values$modelLoaded) {
         domains <- values$results$model_results$model_data$domains
-        capabilitiesvalues$results$model_results$model_data$capabilities
+        capabilities <- values$results$model_results$model_data$capabilities
 
         inner_join(capabilities, domains, by = "domain_id") %>%
             select(domain, capability_id, capability, diff) %>%
