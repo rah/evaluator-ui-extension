@@ -176,7 +176,7 @@ summarize_model_simulation <-function(model_results) {
         "risk_tolerances" = risk_tolerances,
         "domain_summary" = domain_summary,
         "scenario_summary" = scenario_summary,
-        "scenarios" = model_results$quantitiative_scenarios)
+        "scenarios" = model_results$quantitative_scenarios)
 
     results <- list(
         "model_results" = model_results,

@@ -312,7 +312,9 @@ renderTable({
                       "Value at Risk" = ale_var)
        }
 })
+
 ```
+
 All Scenarios {data-orientation=rows}
 ========================================================================
 
