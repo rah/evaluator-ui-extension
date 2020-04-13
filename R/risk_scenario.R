@@ -227,13 +227,13 @@ cluster_scenario_loss <- function(simulation_results) {
         ungroup %>%
         mutate(cluster_id = kmeans(max_ale, 3)$cluster)
 
-    # assign lables to the clusters
+    # assign labels to the clusters
     text_labels <- c("High", "Median", "Low")
     cluster_descriptions <- group_by(dat, cluster_id, full_label) %>%
         summarize(ale = max(max_ale)) %>%
         summarize(highest_ale = max(ale), n = n()) %>%
         arrange(desc(highest_ale)) %>%
-        mutate(cluster_labels = factor(text_lables, levels = text_labels),
+        mutate(cluster_labels = factor(text_labels, levels = text_labels),
                top_n = min(last(n), n))
 
     # roll up on a per-cluster basis, adding descriptive text to the cluster

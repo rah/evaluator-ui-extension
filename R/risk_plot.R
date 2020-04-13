@@ -28,6 +28,13 @@ plot_scenario <- function(scenario, simulation_results) {
     return(gg)
 }
 
+#' Default Loss Exceedance Tolerance
+default_tolerance <- data.frame(x = c(100000, 2000000, 10000000, 50000000),
+                                y = c(0.99,   0.25,    0.10,     0.005   ))
+
+#' Display the loss exceedance curve for a group of one or more scenarios
+#' Modified from Evaluator toolkit \code{loss_exceedance_curve}
+#'
 #' @import ggplot2
 #' @importFrom dplyr arrange mutate percent_rank
 #' @importFrom scales percent dollar
@@ -36,9 +43,9 @@ plot_scenario <- function(scenario, simulation_results) {
 #' @param iteration_results iteration level summary from \code{summarize_iterations}.
 #'
 #' @return A ggplot object
-plot_lec <- function(iteration_results, loss_tolerance = default_tolerance) {
-    gg <- dpylr::arrange(iteration_results, .data$max_loss) %>%
-        dpylr::mutate(prob = 1 - dpylr::percent_rank(.data$max_loss)) %>%
+plot_loss_exceedance_curve <- function(iteration_results, loss_tolerance = default_tolerance) {
+    gg <- arrange(iteration_results, .data$max_loss) %>%
+        mutate(prob = 1 - percent_rank(.data$max_loss)) %>%
         ggplot(aes(.data$max_loss, .data$prob))
     gg <- gg + geom_path()
 
@@ -71,7 +78,7 @@ plot_loss_across_scenarios <- function(dat) {
     gg <- ggplot(dat, aes(x = forcats::fct_reorder(full_label, desc(ale_median)), y = ale + 1))
 
     gg <- gg + stat_boxplot(geom = 'errorbar', width = 0.4)
-    gg <- gg + geom_boxplot(fill = viridis::viridus(1), coef = 0, alpha = 1/3, outlier.shape =NA)
+    gg <- gg + geom_boxplot(fill = viridis::viridis(1), coef = 0, alpha = 1/3, outlier.shape =NA)
     gg <- gg + scale_y_log10(label = scales::dollar) + annotation_logticks(sides = "1")
     gg <- gg + guides(fill = FALSE)
     gg <- gg + labs(x = NULL, y = "Annual\nLoss")

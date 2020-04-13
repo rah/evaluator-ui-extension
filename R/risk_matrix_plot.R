@@ -3,10 +3,10 @@
 #'
 library(ggplot2)
 library(plotly)
-library(dplyr)
+
 
 title <- "Risk Matrix"
-caption <- "FAIR Risk Analysis showing the average numebr of loss events (Likelihood) \and Expectancy (Impact)"
+caption <- "FAIR Risk Analysis showing the average number of loss events (Likelihood) and Expectancy (Impact)"
 
 impact_labels = c("none", "Low", "Medium", "High", "Serious", "Extreme")
 likelihood_labels = c("None", "Rare", "Unlikely", "Possible", "Likely", "Highly Likely")
@@ -26,12 +26,12 @@ rr.L <- tibble(
 
 summarize_domain_risk <- function(domain_summary) {
     domain_summary %>%
-        dplyr::mutate(ID = domain_id) %>%
-        dplyr::select(ID, ale_var, mean_loss_events)
+        mutate(ID = domain_id) %>%
+        select(ID, ale_var, mean_loss_events)
 }
 
 map_risk_matrix <- function(risk_summary) {
-    risk <-dplyr::mutate(
+    risk <- mutate(
                       risk_summary,
                       Likelihood = case_when(
                           mean_loss_events < rr.L$high[1] ~ 1,
@@ -49,7 +49,7 @@ map_risk_matrix <- function(risk_summary) {
     return(risk)
 }
 
-generate_risk_matix <- function(risk) {
+generate_risk_matrix <- function(risk) {
     # setting the score in order to calculate the risk level
     Likelihood_score <- rep(c(1,2,4,6,12), 5)
     Impact_score <- rep(c(1,2,4,6,12), each = 5)

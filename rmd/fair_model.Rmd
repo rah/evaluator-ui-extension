@@ -149,7 +149,7 @@ renderPlot({
     if (values$modelLoaded) {
         generate_risk_matrix(
             map_risk_matrix(
-                summarize_doamin_risk(
+                summarize_domain_risk(
                     values$results$summarise_results$domain_summary
                 )
             )
@@ -219,6 +219,7 @@ renderValueBox({
     }
 })
 ```
+
 ### Expected Annual Loss Events {.value-box}
 
 ```{r}
@@ -282,7 +283,7 @@ renderPlot({
 ``` {r loss_exceedance_curve}
 renderPlot({
     if (values$modelLoaded) {
-        lec_plot(values$results$summarise_results$iteration_summary)
+        plot_loss_exceedance_curve(values$results$summarise_results$iteration_summary)
     }
 })
 ```
