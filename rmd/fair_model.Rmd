@@ -291,7 +291,7 @@ renderPlot({
 Top Scenarios
 ========================================================================
 
-### Top Security Threats
+### Top Threats
 
 ``` {r top_risk_scenarios}
 renderTable({
@@ -307,7 +307,7 @@ renderTable({
                       ale_median = scales::dollar(ale_median),
                       full_label = paste(domain_id, scenario_id, sep = " - ")) %>%
                select("ID" = full_label,
-                      "Security Threat" = scenario_description,
+                      "Threat" = scenario_description,
                       "Median Annual Loss" = ale_median,
                       "Value at Risk" = ale_var)
        }
@@ -331,7 +331,7 @@ shiny::renderPlot({
         gg <- gg + scale_y_continuous(labels = dollar_millions)
         gg <- gg + labs(x = "Risk Scenario", y = "Annual Loss")
         gg <- gg + stat_boxplot(geom = 'errorbar', width = 0.5)
-        gg <- gg + geom_boxplot(fill = viridus(1), alpha = 1/3)
+        gg <- gg + geom_boxplot(fill = viridis(1), alpha = 1/3)
         gg <- gg + facet_grid(~ domain_id, scales = "free_x", space = "free_x", switch = "x")
         gg <- gg + theme_evaluator(base_family = basefont)
         gg <- gg + theme(panel.grid.major = element_blank())
@@ -366,7 +366,7 @@ DT::renderDataTable({
                           scrollX = TRUE,
                           scrollY = "300px",
                           fixedColumns = list(leftColumns = 2)),
-                      extensions = c("Scoller", "FixedColumns"))
+                      extensions = c("Scroller", "FixedColumns"))
     }
 })
 ```
