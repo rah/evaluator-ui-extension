@@ -156,12 +156,11 @@ get_control_table <- function(scenario, scenarios, capabilities) {
     control_data <- mutate_at(control_data, vars(min, mode, max), list(percent))
 
     # display
-    control_data %>% select(Control = capability,
-                            Low = min,
-                            Mode = mode,
-#                            "Most Likely" = mode,
-                            High = max,
-                            Confidence = shape)
+    control_data <- control_data %>% select(Control = capability,
+                                            Low = min,
+                                            "Most Likely" = mode,
+                                            High = max,
+                                            Confidence = shape)
 }
 
 #' Get loss summary table
