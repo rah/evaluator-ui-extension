@@ -26,6 +26,7 @@ library(readr)
 library(purrr)
 library(future)
 library(DT)
+library(statip)
 
 plan(multiprocess)
 
@@ -376,6 +377,7 @@ Individual Risk Scenarios
 
 Input Sidebar {.sidebar data-width=500}
 ------------------------------------------------------------------------
+
 Select a specific risk scenario for detailed analysis.
 
 ``` {r inputs}
@@ -390,6 +392,7 @@ shiny::renderUI({
 ```
 
 ### Scenario Description
+
 ``` {r scenario_details}
 shiny::renderText({
     if (values$modelLoaded) {
@@ -446,7 +449,7 @@ shiny::renderTable({
 ``` {r loss_magnitude}
 shiny::renderTable({
     if (values$modelLoaded) {
-        get_loss_distrubution_table(
+        get_loss_distribution_table(
             input$input_scenario,
             values$results$summarise_results$scenarios
         )
@@ -514,7 +517,7 @@ flexdashboard::renderValueBox({
                            percent(dat),
                            caption = "Vulnerability",
                            icon = "ion-nuclear",
-                           color = ifesle(
+                           color = ifelse(
                                dat >= .75, "danger",
                                ifelse(
                                    dat >= .50, "warning", "success")))

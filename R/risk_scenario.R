@@ -15,7 +15,7 @@ get_scenario_id <- function(x) {
 
 #' Get list of scenarios
 get_scenarios <- function(scenario_summary) {
-    scenario_list <- paste(scenario_sumary$domain_id, "-", scenario_summary$scenario_id)
+    scenario_list <- paste(scenario_summary$domain_id, "-", scenario_summary$scenario_id)
 }
 
 #' Get scenario description
@@ -59,7 +59,8 @@ get_scenario_results <- function(sid, simulation_results) {
 #' @return summary table for display
 get_summary_table <- function(sid, scenario_summary) {
     summary_data <- scenario_summary %>%
-        filter(scenario_id == sid) %>% select(-c(results, control_descriptions))
+        filter(scenario_id == sid) %>%
+        select(-c(results, control_descriptions))
 
     # add pretty formatting
     summary_data <- mutate_at(summary_data, .funs = dollar,
@@ -72,7 +73,7 @@ get_summary_table <- function(sid, scenario_summary) {
                                   NA,
                                   percent(mean_vuln)))
 
-    names(summary_data) <- stringi::stri_trans_tototle(gsub("_", " ", names(summary_data)))
+    names(summary_data) <- stringi::stri_trans_totitle(gsub("_", " ", names(summary_data)))
     summary_data <- summary_data %>% mutate_all(as.character) %>%
         tidyr::gather(key = "Parameter", value = "Value")
     summary_data
@@ -147,7 +148,8 @@ get_control_table <- function(scenario, scenarios, capabilities) {
     scenario_data <- get_scenario_data(scenario, scenarios)
 
     # add control description
-    control_data <- as_tibble(scenario_data) %>% filter(openfair_factor == "diff") %>%
+    control_data <- as_tibble(scenario_data) %>%
+        filter(openfair_factor == "diff") %>%
         left_join(capabilities, by = c("id" = "capability_id"))
 
     # format percentages
@@ -155,7 +157,10 @@ get_control_table <- function(scenario, scenarios, capabilities) {
 
     # display
     control_data %>% select(Control = capability,
-                            Low = min, "Most Likely" = mode, High = max,
+                            Low = min,
+                            Mode = mode,
+#                            "Most Likely" = mode,
+                            High = max,
                             Confidence = shape)
 }
 
