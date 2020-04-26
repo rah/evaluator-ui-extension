@@ -25,9 +25,11 @@ rr.L <- tibble(
 )
 
 summarize_domain_risk <- function(domain_summary) {
-    domain_summary %>%
+    domains <- values$results$model_results$model_data$domains
+
+    inner_join(domain_summary, domains, by = c("domain_id", "domain")) %>%
         mutate(ID = domain_id) %>%
-        select(ID, ale_var, mean_loss_events)
+        select(ID, domain, ale_var, mean_loss_events)
 }
 
 map_risk_matrix <- function(risk_summary) {

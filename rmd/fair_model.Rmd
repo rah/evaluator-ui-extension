@@ -171,10 +171,12 @@ renderTable({
         ) %>%
             mutate(ale_var = scales::dollar(ale_var)) %>%
             select("ID" = ID,
+                   "Asset" = domain,
                    "Value at Risk" = ale_var,
                    "Mean Loss Events" = mean_loss_events,
                    "Likelihood" = Likelihood,
                    "Impact" = Impact)
+
     }
 })
 ```
