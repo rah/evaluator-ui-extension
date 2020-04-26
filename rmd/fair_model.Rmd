@@ -245,6 +245,7 @@ Row
 renderTable({
     if (values$modelLoaded) {
         values$results$summarise_results$domain_summary %>%
+            arrange(desc(ale_var)) %>%
             mutate(ale_min = scales::dollar(ale_min),
                    ale_median = scales::dollar(ale_median),
                    ale_mean = scales::dollar(ale_mean),
@@ -253,12 +254,12 @@ renderTable({
                    ale_var = scales::dollar(ale_var)) %>%
             select("ID" = domain_id,
                    "Asset" = domain,
+                   "95% Value at Risk" = ale_var,
                    "Min ALE" = ale_min,
                    "Median ALE" = ale_median,
                    "Mean ALE" = ale_mean,
                    "Max ALE" = ale_max,
-                   "Std Dev ALE" = ale_sd,
-                   "Value at Risk ALE" = ale_var)
+                   "Std Dev ALE" = ale_sd)
     }
 })
 ```
