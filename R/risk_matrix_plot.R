@@ -29,7 +29,8 @@ summarize_domain_risk <- function(domain_summary) {
 
     inner_join(domain_summary, domains, by = c("domain_id", "domain")) %>%
         mutate(ID = domain_id) %>%
-        select(ID, domain, ale_var, mean_loss_events)
+        select(ID, domain, ale_var, mean_loss_events) %>%
+        arrange(desc(ale_var))
 }
 
 map_risk_matrix <- function(risk_summary) {
